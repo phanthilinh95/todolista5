@@ -5,24 +5,32 @@ import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 
 @Injectable()
 export class TodoService {
-todoList: AngularFireList<any>;
-  constructor(private firebasedb : AngularFireDatabase) { }
-  getTodoList(){
+  todoList: AngularFireList<any>;
+
+  constructor(private firebasedb: AngularFireDatabase) {
     this.todoList = this.firebasedb.list('titles');
+  }
+
+  getTodoList() {
+    // this.todoList = this.firebasedb.list('titles');
+    // this.todoList.remove();
     return this.todoList;
   }
 
   addTitle(title: string) {
+    console.log('on add');
     this.todoList.push({
-      this : title,
-      isChecked : false
-      })
-    }
-
-  checkOrUncheckTitle ($key: string, flag: boolean){
-    this.todoList.update($key, { isChecked: flag});
+      title: title,
+      isChecked: false
+    });
   }
-  removeTitle($key: string){
+
+  checkOrUncheckTitle($key: string, flag: boolean) {
+    console.log('on update');
+    this.todoList.update($key, { isChecked: flag });
+  }
+
+  removeTitle($key: any) {
     this.todoList.remove($key);
   }
 }
